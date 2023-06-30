@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'c_grammar'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=c_grammar",
+                    "--package=c_grammar"
+                ],
+                "filter": {
+                    "name": "c_grammar",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "run",
+            "cargo": {
+                "args": [
+                    "run",
+                    "--bin=c_grammar",
+                    "--package=c_grammar"
+                ],
+                "filter": {
+                    "name": "c_grammar",
+                    "kind": "bin"
+                }
+            },
+            "args": ["--", "source.c"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'c_grammar'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=c_grammar",
+                    "--package=c_grammar"
+                ],
+                "filter": {
+                    "name": "c_grammar",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

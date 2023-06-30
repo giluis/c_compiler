@@ -1,0 +1,20 @@
+{
+    "cSpell.words": [
+        "accum",
+        "cmpl",
+        "globl",
+        "idiv",
+        "imul",
+        "logneg",
+        "movl",
+        "Mult",
+        "sete",
+        "setg",
+        "setge",
+        "setl",
+        "setle",
+        "setne",
+        "unop",
+        "xchg"
+    ]
+}

@@ -26,9 +26,9 @@ dependencies = [
 
 [[package]]
 name = "astray"
-version = "0.1.5"
+version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53990bcf31519504925391b41dd70eb23b758199620806afc7e800cbc68fd059"
+checksum = "0fe8ef7bd645667a6cbfa84419ec5b7fe1c0ea1a598e9a73e585c08663f6469e"
 dependencies = [
  "astray_core",
  "astray_macro",
@@ -36,9 +36,9 @@ dependencies = [
 
 [[package]]
 name = "astray_core"
-version = "0.1.14"
+version = "0.1.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5361f8e1f801056939196d3c5ed477f6c69642fd5da48892eab4a3b8db56c497"
+checksum = "3bf2da13b8e6f57c2bb1083652c225a3ac36fde4053ae0e92e440a97baa3bde0"
 dependencies = [
  "arr_macro",
  "either",
@@ -50,13 +50,14 @@ dependencies = [
 
 [[package]]
 name = "astray_macro"
-version = "0.2.0"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa9aeff9d9a0a556036c72ec3dd1c57b54fd67ccd1eec856597c9bd691685fac"
+checksum = "93fedc07bb644be8c8ae8c2642e74462928cf8b167db46de914ad90d043b5138"
 dependencies = [
  "astray_core",
  "convert_case",
  "hatch_result",
+ "lazy_static",
  "proc-macro2",
  "quote",
  "syn 1.0.109",
@@ -103,6 +104,12 @@ name = "hatch_result"
 version = "0.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2c980ec45c84ae70af83e690889308cacc686df8c07984fee647f0bac08766c"
+
+[[package]]
+name = "lazy_static"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "logos"
