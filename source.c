@@ -1,3 +1,3 @@
-int main(){
-    return 3/-1;
+int main() {
+    return 1 == 2;
 }

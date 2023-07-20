@@ -1,17 +1,20 @@
 
 use astray::{Parsable, TokenIter, ParseError, ConsumableToken};
-use logos::Logos;
+use logos::{Logos, Lexer};
 
-#[derive(Logos, Debug, Clone, PartialEq)]
+
+#[derive(Logos, Debug, Clone, PartialEq, Hash, Eq)]
 #[logos(skip r"[ \t\n\f]+")]
 pub enum Token {
-    #[regex("[a-zA-Z]+")]
+    #[regex(r"[a-zA-Z]+")]
     RawIdentifier,
     Identifier(String),
     #[regex("&&")]
     DoubleAmpersand,
     #[regex(r"\|\|")]
     DoublePipe,
+    #[regex("=")]
+    Equals,
     #[regex("==")]
     DoubleEquals,
     #[regex("!=")]
@@ -44,7 +47,7 @@ pub enum Token {
     KwInt,
     #[token("float")]
     KwFloat,
-    #[token("return")]
+    #[regex("return")]
     KwReturn,
     #[token(";")]
     Semicolon,
@@ -57,8 +60,12 @@ pub enum Token {
     Number(u32),
 }
 
+pub enum LexError {
+    UnexpectedToken(String)
+}
 
-pub fn lex(input: &str) -> TokenIter<Token> {
+
+pub fn lex(input: &str) -> Result<TokenIter<Token>, LexError> {
     let mut lex = Token::lexer(input);
     let mut result = vec![];
     while let Some(token) = lex.next() {
@@ -72,11 +79,11 @@ pub fn lex(input: &str) -> TokenIter<Token> {
                 Token::Number(contents.parse().unwrap())
             }
             Ok(token) => token,
-            err => panic!("Failed to read token {:?}", err),
+            err => return Err(LexError::UnexpectedToken("Could not match any token".to_owned())),
         };
         result.push(token)
     }
-    TokenIter::new(result)
+    Ok(TokenIter::new(result))
 }
 
 impl std::fmt::Display  for Token {
@@ -108,6 +115,7 @@ impl std::fmt::Display  for Token {
             Token::LessThan => unimplemented!(),
             Token::GreaterThanOrEqual => unimplemented!(),
             Token::GreaterThan => unimplemented!(),
+            Token::Equals => todo!(),
         };
         write!(f, "{str}")
     }

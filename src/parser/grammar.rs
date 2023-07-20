@@ -7,8 +7,14 @@ set_token!(Token);
 
 
 #[derive(SN, Debug, PartialEq)]
-pub struct Program{
+pub struct AST{
     pub items: Vec<Item>,
+}
+
+impl AST {
+    pub fn is_valid(&self) -> bool {
+        !self.items.is_empty()
+    }
 }
 
 
@@ -91,19 +97,53 @@ pub enum Type {
 
 #[derive(SN, PartialEq, Debug)]
 pub struct Body {
-    pub expressions: Vec<Statement>
+    pub statements: Vec<Statement>
 }
 
 
 #[derive(SN, PartialEq, Debug)]
 pub enum Statement {
-    Return(ReturnStatement)
+    Return(ReturnStatement),
+    Declaration(DeclarationStatement),
 }
 
 #[derive(SN, PartialEq, Debug)]
-pub enum Expression {
-    OrExpression(OrExpression),
+pub struct DeclarationStatement {
+    #[pattern(Token::KwInt)]
+    ty_kw: Token,
+    #[pattern(Token::Identifier(_))]
+    pub ident: Token,
+    #[pattern((Token::Equals, _))]
+    pub initialization: Option<(Token, Expression)>,
+    #[pattern(Token::Semicolon)]
+    semi: Token,
 }
+
+#[derive(SN, PartialEq, Debug)]
+pub struct ReturnStatement {
+    #[pattern(Token::KwReturn)]
+    return_kw: Token,
+    pub expr: Expression,
+    #[pattern(Token::Semicolon)]
+    semi: Token,
+}
+
+
+#[derive(SN, PartialEq, Debug)]
+pub enum Expression {
+    AssignExpression(AssignExpression),
+    OrExpression(AssignExpression),
+}
+
+#[derive(SN, PartialEq, Debug)]
+pub struct AssignExpression {
+    #[pattern(Token::Identifier(_))]
+    pub variable: Token,
+    #[pattern(Token::Equals)]
+    equals: Token,
+    pub expr: Box<Expression>
+}
+
 
 #[derive(SN, PartialEq, Debug)]
 pub struct OrExpression {
@@ -133,16 +173,6 @@ pub struct RelationalExpression {
     pub others: Vec<(Operator, RelationalExpression)>
 }
 
-
-
-#[derive(SN, PartialEq, Debug)]
-pub struct ReturnStatement {
-    #[pattern(Token::KwReturn)]
-    return_kw: Token,
-    pub expr: Box<Expression>,
-    #[pattern(Token::Semicolon)]
-    semi: Token,
-}
 
 #[derive(SN, Debug, PartialEq)]
 pub struct ArithExpr {
@@ -181,7 +211,7 @@ pub enum UnaryOperator {
 
 #[derive(Debug, PartialEq)]
 pub struct ParenthesizedExpression {
-    pub expr: ArithExpr,
+    pub expr: Expression,
 }
 
 impl Parsable<Token> for ParenthesizedExpression {
